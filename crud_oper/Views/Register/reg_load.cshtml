@@ -1,0 +1,35 @@
+﻿@model crud_oper.Models.insertdb
+@{
+    ViewBag.Title = "reg_load";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>insert details</h2>
+<div>
+    @using (Html.BeginForm("reg_click", "Register", FormMethod.Post))
+    {
+        <div><label>name:</label></div>
+        <div>
+            @Html.TextBoxFor(m => m.name)
+            @Html.ValidationMessageFor(m => m.name)
+        </div>
+
+        <div><label>age:</label></div>
+        <div>
+            @Html.TextBoxFor(m => m.age)
+            @Html.ValidationMessageFor(m => m.age)
+        </div>
+
+        <div><label>description:</label></div>
+        <div>
+            @Html.TextAreaFor(m => m.des)
+            @Html.ValidationMessageFor(m => m.des)
+        </div>
+        <div>
+            <input type="submit" value="insert" />
+            @Html.DisplayFor(m => m.msg)
+        </div>
+    }
+
+</div>
+

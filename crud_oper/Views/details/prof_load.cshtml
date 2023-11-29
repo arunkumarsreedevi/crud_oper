@@ -1,0 +1,34 @@
+﻿@model crud_oper.Models.readandupdatecs
+@{
+    ViewBag.Title = "prof_load";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>user profile</h2>
+
+<div>
+    @using (Html.BeginForm("prof_update", "details", FormMethod.Get))
+    {
+        <div><label>name:</label></div>
+        <div>
+            @Html.TextBoxFor(m => m.name)
+            @Html.ValidationMessageFor(m => m.name)
+        </div>
+
+        <div><label>age:</label></div>
+        <div>
+            @Html.TextBoxFor(m => m.age)
+            @Html.ValidationMessageFor(m => m.age)
+        </div>
+
+        <div><label>description:</label></div>
+        <div>
+            @Html.TextAreaFor(m => m.des)
+            @Html.ValidationMessageFor(m => m.des)
+        </div>
+        <div>@Html.ActionLink("back to home", "Home", "Index")</div>
+     
+    }
+
+</div>
+

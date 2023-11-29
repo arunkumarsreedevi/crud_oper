@@ -1,0 +1,125 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="db_crudModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="age" Type="int" Nullable="false" />
+          <Property Name="des" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <Function Name="sp_insert" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="na" Type="varchar" Mode="In" />
+          <Parameter Name="ag" Type="int" Mode="In" />
+          <Parameter Name="dec" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_read" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="na" Type="varchar" Mode="In" />
+          <Parameter Name="ag" Type="int" Mode="In" />
+          <Parameter Name="dec" Type="varchar" Mode="In" />
+        </Function>
+        <Function Name="sp_update" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="dbo">
+          <Parameter Name="Id" Type="int" Mode="In" />
+          <Parameter Name="na" Type="varchar" Mode="In" />
+          <Parameter Name="ag" Type="int" Mode="In" />
+          <Parameter Name="dec" Type="varchar" Mode="In" />
+        </Function>
+        <EntityContainer Name="db_crudModelStoreContainer">
+          <EntitySet Name="employee" EntityType="Self.employee" Schema="dbo" store:Type="Tables" />
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="db_crudModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="employee">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="age" Type="Int32" Nullable="false" />
+          <Property Name="des" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
+        <EntityContainer Name="db_crudEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="employees" EntityType="Self.employee" />
+          <FunctionImport Name="sp_insert">
+            <Parameter Name="na" Mode="In" Type="String" />
+            <Parameter Name="ag" Mode="In" Type="Int32" />
+            <Parameter Name="dec" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_read" ReturnType="Collection(db_crudModel.sp_read_Result)">
+            <Parameter Name="na" Mode="In" Type="String" />
+            <Parameter Name="ag" Mode="In" Type="Int32" />
+            <Parameter Name="dec" Mode="In" Type="String" />
+          </FunctionImport>
+          <FunctionImport Name="sp_update">
+            <Parameter Name="Id" Mode="In" Type="Int32" />
+            <Parameter Name="na" Mode="In" Type="String" />
+            <Parameter Name="ag" Mode="In" Type="Int32" />
+            <Parameter Name="dec" Mode="In" Type="String" />
+          </FunctionImport>
+        </EntityContainer>
+        <ComplexType Name="sp_read_Result">
+          <Property Type="Int32" Name="id" Nullable="false" />
+          <Property Type="String" Name="name" Nullable="false" MaxLength="50" />
+          <Property Type="Int32" Name="age" Nullable="false" />
+          <Property Type="String" Name="des" Nullable="false" MaxLength="50" />
+        </ComplexType>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="db_crudModelStoreContainer" CdmEntityContainer="db_crudEntities">
+          <EntitySetMapping Name="employees">
+            <EntityTypeMapping TypeName="db_crudModel.employee">
+              <MappingFragment StoreEntitySet="employee">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="des" ColumnName="des" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <FunctionImportMapping FunctionImportName="sp_insert" FunctionName="db_crudModel.Store.sp_insert" />
+          <FunctionImportMapping FunctionImportName="sp_read" FunctionName="db_crudModel.Store.sp_read">
+            <ResultMapping>
+              <ComplexTypeMapping TypeName="db_crudModel.sp_read_Result">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="age" ColumnName="age" />
+                <ScalarProperty Name="des" ColumnName="des" />
+              </ComplexTypeMapping>
+            </ResultMapping>
+          </FunctionImportMapping>
+          <FunctionImportMapping FunctionImportName="sp_update" FunctionName="db_crudModel.Store.sp_update" />
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
